@@ -1,4 +1,7 @@
-//! A layer of a neural network.
+//! Implementations of neural network layers.
+
+pub mod conv;
+pub mod dense;
 
 use crate::array::*;
 
