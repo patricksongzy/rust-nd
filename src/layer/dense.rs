@@ -1,9 +1,9 @@
 //! A fully-connected neural network layer, which applies y = activation(Ax + b).
 
+use crate::activation::Activation;
 use crate::array::*;
+use crate::initializer::Initializer;
 use crate::layer::Layer;
-use crate::nn::activation::Activation;
-use crate::nn::initializer::Initializer;
 use crate::numbers::*;
 
 /// A fully-connected neural network layer, storing the parameters of the layer.
@@ -43,7 +43,7 @@ impl Dense {
 
 impl Layer for Dense {
     fn forward(&self, input: Array) -> Array {
-        let result = &Array::matmul((&input, false), (&self.weights, true)) + &self.biases;
+        let result = Array::matmul((&input, false), (&self.weights, true), Some(&self.biases));
         match &self.activation {
             Some(f) => f(result),
             None => result,
@@ -62,7 +62,7 @@ mod tests {
     use std::sync::Arc;
 
     #[test]
-    fn test_backward() {
+    fn test_smoke() {
         use rand::Rng;
         let mut rng = rand::thread_rng();
 
